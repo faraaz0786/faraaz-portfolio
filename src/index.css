@@ -1,0 +1,219 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------------------------------------
+   Smooth fonts & color tokens
+-------------------------------------------------- */
+:root{
+  --radius: 1rem;
+
+  /* Light accents: Emerald → Green → Lime */
+  --accent-from: 16 185 129;  /* emerald-500 */
+  --accent-via:  34 197 94;   /* green-500   */
+  --accent-to:  132 204 22;   /* lime-500    */
+
+  /* Light surfaces */
+  --surface-0: 255 255 255;   /* pure */
+  --surface-1: 248 250 252;   /* slate-50 */
+  --surface-2: 241 245 249;   /* slate-100 */
+  --ink-1:     15 23 42;      /* slate-900 */
+  --ink-2:     71 85 105;     /* slate-500 */
+}
+
+/* Dark accents: Purple → Indigo → Fuchsia */
+.dark{
+  --accent-from: 168 85 247;  /* purple-500  */
+  --accent-via:   99 102 241; /* indigo-500  */
+  --accent-to:   217 70 239;  /* fuchsia-500 */
+
+  /* Dark surfaces */
+  --surface-0: 10 12 22;      /* deep navy   */
+  --surface-1: 11 15 28;
+  --surface-2: 16 23 42;      /* slate-900   */
+  --ink-1:    241 245 249;    /* slate-100   */
+  --ink-2:    148 163 184;    /* slate-400   */
+}
+
+*{ -webkit-tap-highlight-color: transparent; }
+html,body,#root{ height:100%; }
+body{
+  color: rgb(var(--ink-1));
+  background: rgb(var(--surface-0));
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+.font-display{ font-family:'Space Grotesk', ui-sans-serif, system-ui; }
+.font-body{    font-family:'Inter', ui-sans-serif, system-ui; }
+.font-mono{    font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace; }
+
+/* -------------------------------------------------
+   Global helpers
+-------------------------------------------------- */
+.section{ @apply py-14 md:py-16; } /* slightly looser base */
+.section-title{ @apply text-3xl md:text-4xl font-bold tracking-tight; }
+.section-subtitle{ color: rgb(var(--ink-2)); @apply mt-2; }
+
+.card{
+  background: color-mix(in oklab, rgb(var(--surface-1)) 70%, transparent);
+  @apply rounded-2xl backdrop-blur border shadow-soft;
+  border-color: color-mix(in oklab, rgb(var(--ink-2)), transparent 70%);
+}
+.dark .card{
+  background: color-mix(in oklab, rgb(var(--surface-2)) 60%, transparent);
+  border-color: color-mix(in oklab, rgb(var(--ink-2)), transparent 65%);
+}
+
+a.link{ @apply underline underline-offset-4 hover:no-underline; }
+
+/* Accent text & buttons */
+.text-gradient{
+  background-image: linear-gradient(90deg,
+    rgb(var(--accent-from)),
+    rgb(var(--accent-via)),
+    rgb(var(--accent-to)));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color: transparent;
+}
+.btn-gradient{
+  @apply px-5 py-3 rounded-2xl text-white shadow-soft transition;
+  background-image: linear-gradient(90deg,
+    rgb(var(--accent-from)),
+    rgb(var(--accent-via)),
+    rgb(var(--accent-to)));
+}
+.btn-gradient:hover{ filter:brightness(1.05); }
+
+/* Glass */
+.glass{
+  background: color-mix(in oklab, rgb(var(--surface-1)) 70%, transparent);
+  @apply backdrop-blur border;
+  border-color: color-mix(in oklab, rgb(var(--ink-2)), transparent 70%);
+}
+.dark .glass{
+  background: color-mix(in oklab, rgb(var(--surface-2)) 60%, transparent);
+  border-color: color-mix(in oklab, rgb(var(--ink-2)), transparent 65%);
+}
+
+/* Stats */
+.stat{ @apply card p-5 text-center; }
+.stat .num{ @apply text-3xl md:text-4xl font-bold font-display; }
+.stat .label{ color: rgb(var(--ink-2)); @apply text-xs uppercase tracking-wider; }
+
+/* Divider */
+.accent-line{
+  background-image: linear-gradient(180deg,
+    rgb(var(--accent-from)),
+    rgb(var(--accent-via)),
+    rgb(var(--accent-to)));
+}
+
+/* Shadow */
+.shadow-soft{ box-shadow: 0 8px 30px rgba(0,0,0,.08); }
+
+/* -------------------------------------------------
+   HERO surface (full-bleed, but with bottom fade)
+-------------------------------------------------- */
+.hero-surface{
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 120% at 100% 0%, rgba(var(--accent-via), .18) 0%, rgba(255,255,255,0) 55%),
+    radial-gradient(110% 110% at 0% 100%, rgba(var(--accent-to), .16) 0%, rgba(255,255,255,0) 55%),
+    linear-gradient(135deg, rgb(var(--surface-1)) 0%, rgb(var(--surface-2)) 60%, rgb(var(--surface-1)) 100%);
+  background-attachment: fixed;
+}
+.dark .hero-surface{
+  background:
+    radial-gradient(120% 120% at 100% 0%, rgba(99,102,241,.33) 0%, rgba(2,6,23,0) 55%),
+    radial-gradient(110% 110% at 0% 100%, rgba(217,70,239,.23) 0%, rgba(2,6,23,0) 55%),
+    linear-gradient(135deg, #0b0f1c 0%, #0f1540 55%, #0a0f2c 100%);
+  background-attachment: fixed;
+}
+/* Soft bottom fade so the next section sits comfortably */
+.hero-surface::after{
+  content:"";
+  position:absolute; inset:auto 0 0 0; height:84px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.06));
+}
+.dark .hero-surface::after{
+  background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.22));
+}
+
+/* Optional vignette and inset frame if you use them */
+.hero-vignette{
+  background:
+    radial-gradient(140% 100% at 70% 40%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 45%, transparent 60%),
+    radial-gradient(140% 100% at 30% 70%, rgba(255,255,255,0.05) 0%, transparent 60%);
+}
+.frame-inset{
+  box-shadow:
+    inset 0 0 0 1px rgba(148,163,184,.18),
+    0 30px 60px rgba(0,0,0,.22);
+}
+
+/* Hero image polish */
+.hero-photo img, .group > div > img{ filter: contrast(1.06) saturate(1.06); }
+
+/* Grain */
+.noise-overlay{
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='.22'/></svg>");
+  background-size:240px 240px; mix-blend-mode:soft-light;
+}
+
+/* -------------------------------------------------
+   Animations
+-------------------------------------------------- */
+@keyframes fadeUp{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+@keyframes popIn{ 0%{opacity:0; transform:scale(.96);} 100%{opacity:1; transform:scale(1);} }
+@keyframes heroIn{ 0%{opacity:0; transform:translateY(18px) scale(.98);} 100%{opacity:1; transform:translateY(0) scale(1);} }
+@keyframes blobFloat{ 0%,100%{transform:translate3d(0,0,0);} 50%{transform:translate3d(0,-8px,0);} }
+@keyframes heroLine{ from{width:0%;} to{width:78%;} }
+
+.animate-fadeUp{ animation:fadeUp .6s ease both; }
+.animate-popIn{  animation:popIn  .45s ease both; }
+.animate-heroIn{ animation:heroIn .7s cubic-bezier(.2,.7,.2,1) both; }
+.animate-blobFloat{ animation:blobFloat 6s ease-in-out infinite; }
+.animate-heroLine{ animation:heroLine .8s ease both; }
+
+/* -------------------------------------------------
+   Section spacing rules (alignment fix)
+-------------------------------------------------- */
+@layer components{
+  /* Hero: a bit taller so content breathes, but not too tall */
+  .hero-block{ @apply py-16 md:py-20; }
+
+  /* Regular sections: balanced spacing */
+  .section-block{
+    @apply py-12 md:py-14;
+  }
+
+  /* If a section follows the hero, trim its top a bit */
+  .after-hero{ @apply pt-8 md:pt-10; }
+
+  /* Separator (optional, subtle) */
+  .section-sep{ @apply mt-8 border-t border-slate-800/40 dark:border-slate-700/40; }
+}
+
+
+/* Wider section wrapper (reduces big side gutters) */
+.wrap {
+  /* center + responsive side padding */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;   /* 16px */
+  padding-right: 1rem;
+
+  /* widen progressively */
+  max-width: 1200px;          /* default */
+}
+@media (min-width: 768px) {    /* md */
+  .wrap { max-width: 1280px; }
+}
+@media (min-width: 1024px) {   /* lg */
+  .wrap { max-width: 1360px; } /* tweak this number to taste (e.g., 1400) */
+}
+@media (min-width: 1280px) {   /* xl */
+  .wrap { max-width: 1400px; }
+}

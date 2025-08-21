@@ -5,7 +5,8 @@ export const SITE = {
   phone: "+91 7081000211",
   location: "Lucknow, India",
   linkedin: "https://www.linkedin.com/in/mohd-faraaz-kalim-527003333",
-  github: "https://github.com/your-github", // TODO: replace with your GitHub link
+  github: "https://github.com/faraaz0786/faraaz-portfolio", // TODO: replace with your GitHub link
+  instagram: "https://www.instagram.com/faraaz_._kalim_._02", // TODO: replace with your Instagram link
   resumeUrl: "/FARAAZ_RESUME.pdf", // served from /public
   tagline: "Building scalable applications with clean code and creative solutions.",
   education: {

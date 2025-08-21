@@ -3,10 +3,10 @@ import { ArrowRight, Send } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section id="home" className="section pt-8 md:pt-12">
+    // Use one purpose-built class: hero-block
+    <section id="home" className="hero-block">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-[1fr,1.05fr]">
-
           {/* LEFT — Intro */}
           <div className="max-w-xl pl-6 md:pl-10 animate-heroUp">
             <p className="uppercase tracking-widest text-xs text-slate-400">
@@ -43,7 +43,7 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* RIGHT — Oval Profile (tighter vertically) */}
+          {/* RIGHT — Oval Profile */}
           <div className="relative flex justify-center animate-heroIn">
             <div className="rounded-[40%] p-[3px] bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600 shadow-[0_20px_60px_rgba(14,165,233,.35)] transition hover:scale-[1.02]">
               <div className="rounded-[40%] overflow-hidden bg-slate-900/70 backdrop-blur-md">
@@ -61,9 +61,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-
-      {/* Separator line */}
-      <div className="mt-10 h-[1px] w-full bg-slate-300/40 dark:bg-slate-700/50" />
     </section>
   );
 }

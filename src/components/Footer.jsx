@@ -1,11 +1,15 @@
+// src/components/Footer.jsx
 import { SITE } from "../data/site"
-import { Github, Linkedin, Mail, Globe } from "lucide-react"
+import { Github, Linkedin, Mail, Instagram } from "lucide-react"
 
 export default function Footer() {
   const year = new Date().getFullYear()
 
   const LinkItem = ({ href, children }) => (
-    <a href={href} className="block text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
+    <a
+      href={href}
+      className="block text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+    >
       {children}
     </a>
   )
@@ -25,59 +29,62 @@ export default function Footer() {
         {children}
       </div>
     </a>
-  );  
-
+  )
 
   return (
     <footer className="mt-20">
-      {/* Top social band (keep; feels professional) */}
+      {/* Top social band */}
       <div className="py-8 bg-white/60 dark:bg-slate-950/40 backdrop-blur">
-      <div className="container flex items-center justify-center gap-5">
-      {/* Email → red on hover */}
-      <IconBtn
-      href={`mailto:${SITE.email}`}
-      label="Email"
-      hoverClass="group-hover:text-red-500"
-      >
-      <Mail size={18} />
-      </IconBtn>
-      
-      {/* LinkedIn → LinkedIn blue on hover */}
-      <IconBtn
-      href={SITE.linkedin}
-      label="LinkedIn"
-      hoverClass="group-hover:text-[#0A66C2]"
-      >
-      <Linkedin size={18} />
-      </IconBtn>
-      
-      {/* GitHub → black on light, white on dark */}
-      <IconBtn
-      href={SITE.github}
-      label="GitHub"
-      hoverClass="group-hover:text-black dark:group-hover:text-white"
-      >
-      <Github size={18} />
-      </IconBtn>
-      {/* Website/Globe → green on hover */}
-      <IconBtn
-      href="#home"
-      label="Website"
-      hoverClass="group-hover:text-green-500"
-      >
-      <Globe size={18} />
-      </IconBtn>
-      </div>
+        <div className="container flex items-center justify-center gap-5">
+          {/* Email → red on hover */}
+          <IconBtn
+            href={`mailto:${SITE.email}`}
+            label="Email"
+            hoverClass="group-hover:text-red-500"
+          >
+            <Mail size={18} />
+          </IconBtn>
+
+          {/* LinkedIn → LinkedIn blue on hover */}
+          <IconBtn
+            href={SITE.linkedin}
+            label="LinkedIn"
+            hoverClass="group-hover:text-[#0A66C2]"
+          >
+            <Linkedin size={18} />
+          </IconBtn>
+
+          {/* GitHub → black on light, white on dark */}
+          <IconBtn
+            href={SITE.github}
+            label="GitHub"
+            hoverClass="group-hover:text-black dark:group-hover:text-white"
+          >
+            <Github size={18} />
+          </IconBtn>
+
+          {/* Instagram → brand pink on hover */}
+          <IconBtn
+            href={SITE.instagram}
+            label="Instagram"
+            hoverClass="group-hover:text-pink-500"
+          >
+            <Instagram size={18} />
+          </IconBtn>
+        </div>
       </div>
 
-      {/* Main footer (newsletter removed; grid rebalance) */}
+      {/* Main footer */}
       <div className="bg-white dark:bg-slate-950 border-t border-slate-200/70 dark:border-slate-800">
         <div className="container py-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand / summary */}
           <div className="space-y-3">
-            <div className="font-display text-xl">Faraaz<span className="opacity-60">.dev</span></div>
+            <div className="font-display text-xl">
+              Faraaz<span className="opacity-60">.Kalim</span>
+            </div>
             <p className="text-sm text-slate-600 dark:text-slate-300">
-              Full Stack Developer — Java, Python, React, Node.js. Building scalable apps with clean code & creative solutions.
+              Full Stack Developer — Java, Python, React, Node.js. Building scalable
+              apps with clean code & creative solutions.
             </p>
             <div className="text-sm">
               <a className="link" href={`mailto:${SITE.email}`}>{SITE.email}</a>
@@ -106,8 +113,7 @@ export default function Footer() {
             <div className="space-y-2">
               <LinkItem href={SITE.resumeUrl} download>Download Resume</LinkItem>
               <LinkItem href={SITE.github} target="_blank">Open Source</LinkItem>
-              <LinkItem href={`mailto:${SITE.email}`}>Feedback</LinkItem>
-              <LinkItem href="#contact">Hire Me</LinkItem>
+              {/* Removed: Feedback / Me as requested */}
             </div>
           </div>
 
@@ -126,7 +132,7 @@ export default function Footer() {
         <div className="border-t border-slate-200/70 dark:border-slate-800">
           <div className="container py-6 text-xs flex flex-col md:flex-row items-center justify-between gap-3">
             <div className="font-mono">© {year} {SITE.name}. All rights reserved.</div>
-            <div className="opacity-70">Made with React & Tailwind · Hosted on Vercel/Netlify</div>
+            <div className="opacity-70">Made with React & Tailwind · Hosted on Vercel</div>
           </div>
         </div>
       </div>

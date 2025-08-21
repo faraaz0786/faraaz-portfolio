@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* -------------------------------------------------
-   Smooth fonts & color tokens
+   Tokens: radius, palette (light / dark)
 -------------------------------------------------- */
 :root{
   --radius: 1rem;
@@ -13,26 +13,25 @@
   --accent-via:  34 197 94;   /* green-500   */
   --accent-to:  132 204 22;   /* lime-500    */
 
-  /* Light surfaces */
-  --surface-0: 255 255 255;   /* pure */
-  --surface-1: 248 250 252;   /* slate-50 */
-  --surface-2: 241 245 249;   /* slate-100 */
-  --ink-1:     15 23 42;      /* slate-900 */
-  --ink-2:     71 85 105;     /* slate-500 */
+  /* Light surfaces / ink */
+  --surface-0: 255 255 255;
+  --surface-1: 248 250 252;
+  --surface-2: 241 245 249;
+  --ink-1:     15 23 42;      /* text */
+  --ink-2:     71 85 105;     /* subtext */
 }
-
-/* Dark accents: Purple → Indigo → Fuchsia */
 .dark{
+  /* Dark accents: Purple → Indigo → Fuchsia */
   --accent-from: 168 85 247;  /* purple-500  */
   --accent-via:   99 102 241; /* indigo-500  */
   --accent-to:   217 70 239;  /* fuchsia-500 */
 
-  /* Dark surfaces */
-  --surface-0: 10 12 22;      /* deep navy   */
+  /* Dark surfaces / ink */
+  --surface-0: 10 12 22;
   --surface-1: 11 15 28;
-  --surface-2: 16 23 42;      /* slate-900   */
-  --ink-1:    241 245 249;    /* slate-100   */
-  --ink-2:    148 163 184;    /* slate-400   */
+  --surface-2: 16 23 42;
+  --ink-1:    241 245 249;
+  --ink-2:    148 163 184;
 }
 
 *{ -webkit-tap-highlight-color: transparent; }
@@ -48,11 +47,24 @@ body{
 .font-mono{    font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace; }
 
 /* -------------------------------------------------
-   Global helpers
+   Layout helpers
 -------------------------------------------------- */
-.section{ @apply py-14 md:py-16; } /* slightly looser base */
+.wrap{
+  margin-inline: auto;
+  padding-inline: 1rem;
+  max-width: 1200px;
+}
+@media (min-width:768px){ .wrap{ max-width: 1280px; } }
+@media (min-width:1024px){ .wrap{ max-width: 1360px; } }
+@media (min-width:1280px){ .wrap{ max-width: 1400px; } }
+
+.section{ @apply py-14 md:py-16; }
 .section-title{ @apply text-3xl md:text-4xl font-bold tracking-tight; }
 .section-subtitle{ color: rgb(var(--ink-2)); @apply mt-2; }
+
+.section-block{ @apply py-12 md:py-1; }
+.after-hero{ @apply pt-12 md:pt-14; }      /* hero → next section breathing room */
+.section-sep{ @apply mt-10 border-t border-slate-200/60 dark:border-slate-800/60; }
 
 .card{
   background: color-mix(in oklab, rgb(var(--surface-1)) 70%, transparent);
@@ -66,7 +78,7 @@ body{
 
 a.link{ @apply underline underline-offset-4 hover:no-underline; }
 
-/* Accent text & buttons */
+/* Gradient text & button */
 .text-gradient{
   background-image: linear-gradient(90deg,
     rgb(var(--accent-from)),
@@ -85,7 +97,6 @@ a.link{ @apply underline underline-offset-4 hover:no-underline; }
 }
 .btn-gradient:hover{ filter:brightness(1.05); }
 
-/* Glass */
 .glass{
   background: color-mix(in oklab, rgb(var(--surface-1)) 70%, transparent);
   @apply backdrop-blur border;
@@ -96,28 +107,23 @@ a.link{ @apply underline underline-offset-4 hover:no-underline; }
   border-color: color-mix(in oklab, rgb(var(--ink-2)), transparent 65%);
 }
 
-/* Stats */
 .stat{ @apply card p-5 text-center; }
 .stat .num{ @apply text-3xl md:text-4xl font-bold font-display; }
 .stat .label{ color: rgb(var(--ink-2)); @apply text-xs uppercase tracking-wider; }
 
-/* Divider */
 .accent-line{
   background-image: linear-gradient(180deg,
     rgb(var(--accent-from)),
     rgb(var(--accent-via)),
     rgb(var(--accent-to)));
 }
-
-/* Shadow */
 .shadow-soft{ box-shadow: 0 8px 30px rgba(0,0,0,.08); }
 
 /* -------------------------------------------------
-   HERO surface (full-bleed, but with bottom fade)
+   HERO (kept as before)
 -------------------------------------------------- */
 .hero-surface{
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
   background:
     radial-gradient(120% 120% at 100% 0%, rgba(var(--accent-via), .18) 0%, rgba(255,255,255,0) 55%),
     radial-gradient(110% 110% at 0% 100%, rgba(var(--accent-to), .16) 0%, rgba(255,255,255,0) 55%),
@@ -131,32 +137,16 @@ a.link{ @apply underline underline-offset-4 hover:no-underline; }
     linear-gradient(135deg, #0b0f1c 0%, #0f1540 55%, #0a0f2c 100%);
   background-attachment: fixed;
 }
-/* Soft bottom fade so the next section sits comfortably */
 .hero-surface::after{
-  content:"";
-  position:absolute; inset:auto 0 0 0; height:84px;
+  content:""; position:absolute; inset:auto 0 0 0; height:84px;
   background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.06));
 }
 .dark .hero-surface::after{
   background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.22));
 }
+.hero-block{ @apply py-16 md:py-20; }
 
-/* Optional vignette and inset frame if you use them */
-.hero-vignette{
-  background:
-    radial-gradient(140% 100% at 70% 40%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 45%, transparent 60%),
-    radial-gradient(140% 100% at 30% 70%, rgba(255,255,255,0.05) 0%, transparent 60%);
-}
-.frame-inset{
-  box-shadow:
-    inset 0 0 0 1px rgba(148,163,184,.18),
-    0 30px 60px rgba(0,0,0,.22);
-}
-
-/* Hero image polish */
 .hero-photo img, .group > div > img{ filter: contrast(1.06) saturate(1.06); }
-
-/* Grain */
 .noise-overlay{
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='.22'/></svg>");
   background-size:240px 240px; mix-blend-mode:soft-light;
@@ -170,7 +160,6 @@ a.link{ @apply underline underline-offset-4 hover:no-underline; }
 @keyframes heroIn{ 0%{opacity:0; transform:translateY(18px) scale(.98);} 100%{opacity:1; transform:translateY(0) scale(1);} }
 @keyframes blobFloat{ 0%,100%{transform:translate3d(0,0,0);} 50%{transform:translate3d(0,-8px,0);} }
 @keyframes heroLine{ from{width:0%;} to{width:78%;} }
-
 .animate-fadeUp{ animation:fadeUp .6s ease both; }
 .animate-popIn{  animation:popIn  .45s ease both; }
 .animate-heroIn{ animation:heroIn .7s cubic-bezier(.2,.7,.2,1) both; }
@@ -178,42 +167,186 @@ a.link{ @apply underline underline-offset-4 hover:no-underline; }
 .animate-heroLine{ animation:heroLine .8s ease both; }
 
 /* -------------------------------------------------
-   Section spacing rules (alignment fix)
+   NAVBAR (glass + subtle pill highlight)
 -------------------------------------------------- */
-@layer components{
-  /* Hero: a bit taller so content breathes, but not too tall */
-  .hero-block{ @apply py-16 md:py-20; }
 
-  /* Regular sections: balanced spacing */
-  .section-block{
-    @apply py-12 md:py-14;
+/* Sticky glass bar */
+.nav-shell{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: saturate(140%) blur(10px);
+  background: color-mix(in oklab, rgb(var(--surface-0)) 55%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, rgb(var(--ink-2)), transparent 78%);
+  transition: background .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.dark .nav-shell{
+  background: color-mix(in oklab, rgb(var(--surface-1)) 45%, transparent);
+  border-bottom-color: color-mix(in oklab, rgb(var(--ink-2)), transparent 72%);
+}
+.nav-scrolled{
+  background: color-mix(in oklab, rgb(var(--surface-0)) 68%, transparent);
+  border-bottom-color: color-mix(in oklab, rgb(var(--ink-2)), transparent 68%);
+  box-shadow: 0 12px 28px rgba(0,0,0,.18);
+}
+.dark .nav-scrolled{
+  background: color-mix(in oklab, rgb(var(--surface-1)) 58%, transparent);
+  border-bottom-color: color-mix(in oklab, rgb(var(--ink-2)), transparent 60%);
+}
+
+/* Links (pill highlight) */
+.nav-link{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+
+  padding: .5rem .75rem;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  border-radius: .75rem;     /* pill shape */
+  color: rgb(var(--ink-2));
+  transition: color .18s ease, background .25s ease, box-shadow .25s ease;
+}
+
+/* no underline */
+.nav-link::after{ display:none !important; }
+
+/* Hover: light pill */
+.nav-link:hover{
+  color: rgb(var(--ink-1));
+  background: rgba(var(--ink-2), 0.08);     /* lighter pill than nav bg */
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+.dark .nav-link:hover{
+  background: rgba(255,255,255,0.06);
+}
+
+/* Active: slightly stronger pill */
+.nav-link.is-active{
+  color: rgb(var(--ink-1));
+  font-weight: 600;
+  background: rgba(var(--ink-2), 0.12);     /* distinguishable but subtle */
+  box-shadow: 0 3px 10px rgba(0,0,0,.08);
+}
+.dark .nav-link.is-active{
+  background: rgba(255,255,255,0.10);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .nav-link::before{
+    transition: none;
+    transform: none;
   }
+}
 
-  /* If a section follows the hero, trim its top a bit */
-  .after-hero{ @apply pt-8 md:pt-10; }
+/* Mobile sheet (unchanged) */
+.nav-sheet{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.40);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.nav-sheet.open{
+  opacity: 1;
+  pointer-events: auto;
+}
+.nav-sheet-panel{
+  position: absolute;
+  right: 0; top: 0;
+  height: 100%;
+  width: 84%;
+  max-width: 420px;
+  padding: 1rem;
+  background: rgb(var(--surface-0));
+  border-left: 1px solid color-mix(in oklab, rgb(var(--ink-2)), transparent 70%);
+  box-shadow: -16px 0 40px rgba(0,0,0,.20);
+  transform: translateX(8px);
+  opacity: .98;
+}
+.dark .nav-sheet-panel{
+  background: rgb(var(--surface-1));
+  border-left-color: color-mix(in oklab, rgb(var(--ink-2)), transparent 62%);
+}
 
-  /* Separator (optional, subtle) */
-  .section-sep{ @apply mt-8 border-t border-slate-800/40 dark:border-slate-700/40; }
+/* -------------------------------------------------
+   Small utilities
+-------------------------------------------------- */
+.hide-desktop{ display: none; }
+@media (max-width: 767px){
+  .hide-desktop{ display: inline-flex; }
 }
 
 
-/* Wider section wrapper (reduces big side gutters) */
+/* Section separation line */
+.section-sep {
+  @apply border-t border-slate-200 dark:border-slate-700/40;
+  margin-top: 3rem;    /* space above the line */
+  margin-bottom: 3rem; /* space below the line */
+}
+
+/* Section separation line (subtle, compact) */
+.section-sep{
+  @apply border-t border-slate-200/60 dark:border-slate-800/60;
+  margin-block: 2.25rem; /* ~36px above & below */
+}
+
+/* One global separator look & spacing */
+.section-sep {
+  @apply border-t border-slate-200 dark:border-slate-700/40;
+  margin-top: 3rem;    /* above the line */
+  margin-bottom: 3rem; /* below the line */
+}
+
+/* Shared side padding/width */
 .wrap {
-  /* center + responsive side padding */
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;   /* 16px */
-  padding-right: 1rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  max-width: 1200px;
+}
+@media (min-width:768px){ .wrap{ max-width: 1280px; } }
+@media (min-width:1024px){ .wrap{ max-width: 1360px; } }
+@media (min-width:1280px){ .wrap{ max-width: 1400px; } }
 
-  /* widen progressively */
-  max-width: 1200px;          /* default */
+/* Section vertical rhythm */
+.section-block { @apply py-12 md:py-14; }
+.after-hero { @apply pt-12 md:pt-14; } /* if you use it under Hero */
+
+
+/* Reduce bottom spacing only for contact section */
+.contact-band {
+  padding-bottom: 2rem !important;  /* reduce from ~6rem → 2rem */
 }
-@media (min-width: 768px) {    /* md */
-  .wrap { max-width: 1280px; }
+
+/* --- tighten the spacing *only* after Contact --- */
+#contact,
+#contact .wrap {
+  padding-bottom: 2rem !important;     /* reduce from the big default */
 }
-@media (min-width: 1024px) {   /* lg */
-  .wrap { max-width: 1360px; } /* tweak this number to taste (e.g., 1400) */
+
+/* If any nested block in Contact still adds pb-*, clamp it */
+#contact [class*="pb-"] {
+  padding-bottom: 0 !important;
 }
-@media (min-width: 1280px) {   /* xl */
-  .wrap { max-width: 1400px; }
+
+/* In case the footer also has a big top margin, keep it tidy */
+#contact + footer,
+#contact + .site-footer,
+footer.site-footer {
+  margin-top: 0.5rem !important;
+}
+
+
+.glass-nav {
+  backdrop-filter: blur(12px) saturate(180%);
+  background: rgba(17, 25, 40, 0.6); /* semi-transparent dark */
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.dark .glass-nav {
+  background: rgba(255, 255, 255, 0.05); /* light tint for dark mode */
 }

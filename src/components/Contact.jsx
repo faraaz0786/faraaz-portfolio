@@ -5,11 +5,10 @@ import { SITE } from "../data/site";
 import { Phone, Mail, MapPin, Send } from "lucide-react";
 import emailjs from "@emailjs/browser";
 
-// ── Replace these with your EmailJS credentials ─────────────
+// EmailJS credentials
 const EMAILJS_SERVICE_ID  = "service_apoaszk";
 const EMAILJS_TEMPLATE_ID = "template_voyozmt";
 const EMAILJS_PUBLIC_KEY  = "Pe_mq2L309lBfvXQx";
-// ────────────────────────────────────────────────────────────
 
 function InfoCard({ icon, title, value, href }) {
   const Wrapper = href ? "a" : "div";
@@ -24,9 +23,7 @@ function InfoCard({ icon, title, value, href }) {
         {icon}
       </div>
       <div>
-        <div className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
-          {title}
-        </div>
+        <div className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">{title}</div>
         <div className="font-medium">{value}</div>
       </div>
     </Wrapper>
@@ -43,6 +40,7 @@ export default function Contact() {
     setStatus("loading");
     setErrorMsg("");
 
+    // Honeypot
     const fd = new FormData(e.currentTarget);
     if (fd.get("_gotcha")) {
       setStatus("success");
@@ -66,10 +64,7 @@ export default function Contact() {
   };
 
   return (
-    <section
-      id="contact"
-      className="section-block scroll-mt-28 font-body mb-8"
-    >
+    <section id="contact" className="section-block scroll-mt-28 font-body">
       <SectionHeader
         index="08"
         title="Contact."
@@ -95,6 +90,7 @@ export default function Contact() {
             </div>
           ) : (
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 w-full">
+              {/* Honeypot (leave empty) */}
               <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" />
 
               <div className="grid sm:grid-cols-2 gap-4">
@@ -149,6 +145,9 @@ export default function Contact() {
           )}
         </div>
       </div>
+
+      {/* Divider */}
+      <div className="section-separator" />
     </section>
   );
 }

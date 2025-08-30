@@ -1,3 +1,4 @@
+// src/components/BackToTop.jsx
 import { useEffect, useState } from "react";
 import { ChevronUp } from "lucide-react";
 
@@ -11,6 +12,7 @@ export default function BackToTop() {
       const h = document.documentElement.scrollHeight - window.innerHeight;
       const pct = h > 0 ? Math.min(100, Math.max(0, (y / h) * 100)) : 0;
       setProgress(pct);
+      // show once you’ve scrolled a bit, or near the very bottom
       setVisible(y > 600 || y + window.innerHeight >= document.documentElement.scrollHeight - 200);
     };
     onScroll();
@@ -20,8 +22,10 @@ export default function BackToTop() {
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // ring colors
+  // Ring (conic) with tiny angle offset to remove the seam.
+  // TWEAK color: use --accent-* or a fixed rgb/hex if you want.
   const ringBg = `conic-gradient(
+    from .8deg,
     rgb(var(--accent-from)) 0% ${progress}%,
     rgba(148,163,184,0.25) ${progress}% 100%
   )`;
@@ -29,13 +33,19 @@ export default function BackToTop() {
   return (
     <div
       className={[
-        "fixed z-[60] right-4 bottom-5 md:right-8 md:bottom-8",
+        // Position — respects safe areas on iOS
+        "fixed z-[60]",
+        "right-[calc(1rem+env(safe-area-inset-right))]",
+        "bottom-[calc(1.25rem+env(safe-area-inset-bottom))]",
+        "md:right-[calc(2rem+env(safe-area-inset-right))]",
+        "md:bottom-[calc(2rem+env(safe-area-inset-bottom))]",
+        // Show/hide
         "transition-all duration-300",
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 pointer-events-none"
       ].join(" ")}
     >
       <div className="group relative flex items-center gap-2">
-        {/* Label (desktop only) */}
+        {/* Optional label (desktop only) */}
         <span
           className={[
             "hidden md:inline-block text-xs font-medium rounded-full px-3 py-1",
@@ -50,24 +60,27 @@ export default function BackToTop() {
 
         {/* Progress ring + button */}
         <div
-           className="p-[2px] rounded-full shadow-[0_4px_14px_rgba(0,0,0,.12)]"
-           style={{ backgroundImage: ringBg }}
+          // TWEAK ring thickness via p-[2px]
+          className="p-[2px] rounded-full shadow-[0_4px_14px_rgba(0,0,0,.12)]"
+          style={{ backgroundImage: ringBg }}
         >
           <button
             type="button"
             onClick={scrollToTop}
             aria-label="Back to top"
             className={[
-                "h-9 w-9 md:h-10 md:w-10",            // ⬅ smaller size
-                "rounded-full grid place-items-center",
-                "bg-white/75 dark:bg-slate-950/60 backdrop-blur",
-                "border border-slate-200/70 dark:border-slate-800",
-                "text-slate-800 dark:text-slate-100",
-                "transition-transform duration-300",
-                "hover:scale-[1.05] focus:scale-[1.05] focus:outline-none",
-                "focus:ring-2 focus:ring-offset-2 focus:ring-[rgb(var(--accent-to))] focus:ring-offset-white dark:focus:ring-offset-slate-950"
-                ].join(" ")}
-                >
+              // TWEAK button size via h-9 w-9 / md:h-10 md:w-10
+              "h-9 w-9 md:h-10 md:w-10",
+              "rounded-full grid place-items-center",
+              // TWEAK fill colors if desired
+              "bg-white/75 dark:bg-slate-950/60 backdrop-blur",
+              "border border-slate-200/70 dark:border-slate-800",
+              "text-slate-800 dark:text-slate-100",
+              "transition-transform duration-300",
+              "hover:scale-[1.05] focus:scale-[1.05] focus:outline-none",
+              "focus:ring-2 focus:ring-offset-2 focus:ring-[rgb(var(--accent-to))] focus:ring-offset-white dark:focus:ring-offset-slate-950"
+            ].join(" ")}
+          >
             <ChevronUp size={20} className="translate-y-[1px]" />
           </button>
         </div>

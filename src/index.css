@@ -8,20 +8,20 @@
 :root{
   --radius: 1rem;
 
-  /* Light accents: Emerald → Green → Lime */
-  --accent-from: 16 185 129;  /* emerald-500 */
-  --accent-via:  34 197 94;   /* green-500   */
-  --accent-to:  132 204 22;   /* lime-500    */
+  /* Light accents — Elegant Sand & Clay */
+  --accent-from: 164 90 73;   /* #A45A49 clay brown */
+  --accent-via:  201 125 96;  /* #C97D60 terracotta */
+  --accent-to:   230 181 102; /* #E6B566 warm sand */
 
   /* Light surfaces / ink */
-  --surface-0: 255 255 255;
-  --surface-1: 248 250 252;
-  --surface-2: 241 245 249;
-  --ink-1:     15 23 42;      /* text */
-  --ink-2:     71 85 105;     /* subtext */
+  --surface-0: 250 248 245;   /* #FAF8F5 primary background (cream) */
+  --surface-1: 241 236 231;   /* #F1ECE7 alt section (beige-gray) */
+  --surface-2: 236 230 222;   /* slightly deeper beige */
+  --ink-1:     43 33 24;      /* #2B2118 heading (espresso) */
+  --ink-2:     92 83 72;      /* #5C5348 body (muted earthy gray) */
 }
 .dark{
-  /* Dark accents: Purple → Indigo → Fuchsia */
+  /* Dark accents: (keep your existing elegant cool look) */
   --accent-from: 168 85 247;  /* purple-500  */
   --accent-via:   99 102 241; /* indigo-500  */
   --accent-to:   217 70 239;  /* fuchsia-500 */
@@ -63,7 +63,7 @@ body{
 .section-subtitle{ color: rgb(var(--ink-2)); @apply mt-2; }
 
 .section-block{ @apply py-12 md:py-1; }
-.after-hero{ @apply pt-12 md:pt-14; }      /* hero → next section breathing room */
+.after-hero{ @apply pt-12 md:pt-14; }
 .section-sep{ @apply mt-10 border-t border-slate-200/60 dark:border-slate-800/60; }
 
 .card{
@@ -78,7 +78,7 @@ body{
 
 a.link{ @apply underline underline-offset-4 hover:no-underline; }
 
-/* Gradient text & button */
+/* Gradient text & buttons (warm) */
 .text-gradient{
   background-image: linear-gradient(90deg,
     rgb(var(--accent-from)),
@@ -97,6 +97,20 @@ a.link{ @apply underline underline-offset-4 hover:no-underline; }
 }
 .btn-gradient:hover{ filter:brightness(1.05); }
 
+/* Secondary CTA for warm theme */
+.btn-outline-warm{
+  color: rgb(var(--ink-1));
+  background: rgba(var(--surface-0), .75);
+  backdrop-filter: blur(6px);
+  border: 1px solid color-mix(in oklab, rgb(var(--ink-2)), transparent 60%);
+  transition: background .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.btn-outline-warm:hover{
+  background: rgba(var(--surface-1), .9);
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+}
+
+/* Generic glass */
 .glass{
   background: color-mix(in oklab, rgb(var(--surface-1)) 70%, transparent);
   @apply backdrop-blur border;
@@ -120,15 +134,19 @@ a.link{ @apply underline underline-offset-4 hover:no-underline; }
 .shadow-soft{ box-shadow: 0 8px 30px rgba(0,0,0,.08); }
 
 /* -------------------------------------------------
-   HERO (kept as before)
+   HERO (Warm Sand & Clay for light mode)
 -------------------------------------------------- */
 .hero-surface{
   position: relative; overflow: hidden;
   background:
-    radial-gradient(120% 120% at 100% 0%, rgba(var(--accent-via), .18) 0%, rgba(255,255,255,0) 55%),
-    radial-gradient(110% 110% at 0% 100%, rgba(var(--accent-to), .16) 0%, rgba(255,255,255,0) 55%),
-    linear-gradient(135deg, rgb(var(--surface-1)) 0%, rgb(var(--surface-2)) 60%, rgb(var(--surface-1)) 100%);
+    radial-gradient(120% 120% at 100% 0%, rgba(230, 181, 102, 0.18) 0%, rgba(250,248,245,0) 55%),
+    radial-gradient(110% 110% at 0% 100%, rgba(201,125,96,0.16) 0%, rgba(250,248,245,0) 55%),
+    linear-gradient(135deg, #FAF8F5 0%, #F1ECE7 60%, #FAF8F5 100%);
   background-attachment: fixed;
+}
+.hero-surface::after{
+  content:""; position:absolute; inset:auto 0 0 0; height:84px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(43,33,24,.06));
 }
 .dark .hero-surface{
   background:
@@ -137,15 +155,10 @@ a.link{ @apply underline underline-offset-4 hover:no-underline; }
     linear-gradient(135deg, #0b0f1c 0%, #0f1540 55%, #0a0f2c 100%);
   background-attachment: fixed;
 }
-.hero-surface::after{
-  content:""; position:absolute; inset:auto 0 0 0; height:84px;
-  background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.06));
-}
 .dark .hero-surface::after{
   background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.22));
 }
 .hero-block{ @apply py-16 md:py-20; }
-
 .hero-photo img, .group > div > img{ filter: contrast(1.06) saturate(1.06); }
 .noise-overlay{
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='.22'/></svg>");
@@ -166,107 +179,98 @@ a.link{ @apply underline underline-offset-4 hover:no-underline; }
 .animate-blobFloat{ animation:blobFloat 6s ease-in-out infinite; }
 .animate-heroLine{ animation:heroLine .8s ease both; }
 
-/* -------------------------------------------------
-   NAVBAR (glass + subtle pill highlight)
--------------------------------------------------- */
-
-/* Sticky glass bar */
+/* ==============================================
+   NAVBAR — full-bleed bar + premium glass container
+============================================== */
 .nav-shell{
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  backdrop-filter: saturate(140%) blur(10px);
-  background: color-mix(in oklab, rgb(var(--surface-0)) 55%, transparent);
-  border-bottom: 1px solid color-mix(in oklab, rgb(var(--ink-2)), transparent 78%);
-  transition: background .25s ease, border-color .25s ease, box-shadow .25s ease;
+  position: sticky; top: 0; left: 0; right: 0; z-index: 50;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, rgb(var(--surface-0)) 70%, transparent) 0%,
+    color-mix(in oklab, rgb(var(--surface-0)) 64%, transparent) 100%
+  );
+  border-bottom: 1px solid color-mix(in oklab, rgb(var(--ink-2)), transparent 82%);
+  transition: box-shadow .25s ease, border-color .25s ease, background .25s ease;
 }
 .dark .nav-shell{
-  background: color-mix(in oklab, rgb(var(--surface-1)) 45%, transparent);
-  border-bottom-color: color-mix(in oklab, rgb(var(--ink-2)), transparent 72%);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, rgb(var(--surface-1)) 78%, transparent) 0%,
+    color-mix(in oklab, rgb(var(--surface-1)) 70%, transparent) 100%
+  );
+  border-bottom-color: color-mix(in oklab, rgb(var(--ink-2)), transparent 74%);
 }
-.nav-scrolled{
-  background: color-mix(in oklab, rgb(var(--surface-0)) 68%, transparent);
-  border-bottom-color: color-mix(in oklab, rgb(var(--ink-2)), transparent 68%);
-  box-shadow: 0 12px 28px rgba(0,0,0,.18);
-}
-.dark .nav-scrolled{
-  background: color-mix(in oklab, rgb(var(--surface-1)) 58%, transparent);
-  border-bottom-color: color-mix(in oklab, rgb(var(--ink-2)), transparent 60%);
-}
+.nav-scrolled{ box-shadow: 0 12px 26px rgba(0,0,0,.22); }
 
-/* Links (pill highlight) */
+.nav-chrome{
+  position: relative; margin-inline: auto; max-width: 1680px; width: 100%; border-radius: 0;
+  backdrop-filter: blur(8px) saturate(190%);
+  -webkit-backdrop-filter: blur(8px) saturate(190%);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.08)),
+    color-mix(in oklab, rgb(var(--surface-0)) 42%, transparent);
+  border: 1px solid rgba(255,255,255,.22);
+  box-shadow: 0 14px 34px rgba(2, 6, 23, .24), inset 0 1px 0 rgba(255,255,255,.16);
+}
+.dark .nav-chrome{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)),
+    color-mix(in oklab, rgb(var(--surface-1)) 40%, transparent);
+  border-color: rgba(255,255,255,.10);
+  box-shadow: 0 18px 38px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.nav-chrome::after{
+  content:""; pointer-events:none; position:absolute; inset:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='.07'/></svg>");
+  background-size:240px 240px; mix-blend-mode:soft-light; border-radius:0;
+}
+.nav-inner{
+  position: relative; display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+  margin-inline: auto; max-width: 1440px; width: 100%; padding-inline: 1.25rem;
+}
+.nav-pad-y{ padding-block: .6rem; }
 .nav-link{
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: .25rem;
-
-  padding: .5rem .75rem;
-  font-size: .875rem;
-  line-height: 1.25rem;
-  border-radius: .75rem;     /* pill shape */
+  position: relative; display:inline-flex; align-items:center; gap:.25rem;
+  padding:.60rem .6rem; font-size:.92rem; line-height:1rem; border-radius:.6rem;
   color: rgb(var(--ink-2));
-  transition: color .18s ease, background .25s ease, box-shadow .25s ease;
+  transition: color .18s ease, background .25s ease, box-shadow .25s ease, transform .18s ease;
 }
-
-/* no underline */
 .nav-link::after{ display:none !important; }
-
-/* Hover: light pill */
 .nav-link:hover{
   color: rgb(var(--ink-1));
-  background: rgba(var(--ink-2), 0.08);     /* lighter pill than nav bg */
-  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  background: rgba(0,0,0,0.06);
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
 }
-.dark .nav-link:hover{
-  background: rgba(255,255,255,0.06);
-}
-
-/* Active: slightly stronger pill */
+.dark .nav-link:hover{ background: rgba(255,255,255,0.10); }
 .nav-link.is-active{
-  color: rgb(var(--ink-1));
-  font-weight: 600;
-  background: rgba(var(--ink-2), 0.12);     /* distinguishable but subtle */
-  box-shadow: 0 3px 10px rgba(0,0,0,.08);
+  color: rgb(var(--ink-1)); font-weight:600;
+  background: rgba(0,0,0,0.10);
+  box-shadow: 0 4px 14px rgba(0,0,0,.10), inset 0 0 0 1px rgba(0,0,0,.06);
 }
 .dark .nav-link.is-active{
-  background: rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.16);
+  box-shadow: 0 4px 14px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.06);
 }
+.nav-resume{
+  display:inline-flex; align-items:center; gap:.5rem; padding:.6rem 1rem; font-weight:600; color:#fff; border-radius:.8rem;
+  background-image: linear-gradient(90deg, rgb(var(--accent-from)), rgb(var(--accent-via)), rgb(var(--accent-to)));
+  box-shadow: 0 8px 20px rgba(0,0,0,.18);
+  transition: transform .15s ease, filter .15s ease;
+}
+.nav-resume:hover{ filter: brightness(1.05); transform: translateY(-1px); }
 
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .nav-link::before{
-    transition: none;
-    transform: none;
-  }
-}
-
-/* Mobile sheet (unchanged) */
-.nav-sheet{
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.40);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .2s ease;
-}
-.nav-sheet.open{
-  opacity: 1;
-  pointer-events: auto;
-}
+/* Mobile sheet (unchanged base; you can enable when needed) */
+.nav-sheet{ position: fixed; inset: 0; background: rgba(0,0,0,.40); opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+.nav-sheet.open{ opacity: 1; pointer-events: auto; }
 .nav-sheet-panel{
-  position: absolute;
-  right: 0; top: 0;
-  height: 100%;
-  width: 84%;
-  max-width: 420px;
-  padding: 1rem;
+  position: absolute; right: 0; top: 0; height: 100%;
+  width: 84%; max-width: 420px; padding: 1rem;
   background: rgb(var(--surface-0));
   border-left: 1px solid color-mix(in oklab, rgb(var(--ink-2)), transparent 70%);
   box-shadow: -16px 0 40px rgba(0,0,0,.20);
-  transform: translateX(8px);
-  opacity: .98;
+  transform: translateX(100%); transition: transform .28s ease;
 }
+.nav-sheet-panel.open{ transform: translateX(0); }
 .dark .nav-sheet-panel{
   background: rgb(var(--surface-1));
   border-left-color: color-mix(in oklab, rgb(var(--ink-2)), transparent 62%);
@@ -280,73 +284,253 @@ a.link{ @apply underline underline-offset-4 hover:no-underline; }
   .hide-desktop{ display: inline-flex; }
 }
 
-
 /* Section separation line */
 .section-sep {
   @apply border-t border-slate-200 dark:border-slate-700/40;
-  margin-top: 3rem;    /* space above the line */
-  margin-bottom: 3rem; /* space below the line */
+  margin-top: 3rem; margin-bottom: 3rem;
 }
-
-/* Section separation line (subtle, compact) */
 .section-sep{
   @apply border-t border-slate-200/60 dark:border-slate-800/60;
-  margin-block: 2.25rem; /* ~36px above & below */
+  margin-block: 2.25rem;
 }
-
-/* One global separator look & spacing */
 .section-sep {
   @apply border-t border-slate-200 dark:border-slate-700/40;
-  margin-top: 3rem;    /* above the line */
-  margin-bottom: 3rem; /* below the line */
+  margin-top: 3rem; margin-bottom: 3rem;
 }
 
 /* Shared side padding/width */
-.wrap {
-  margin-inline: auto;
-  padding-inline: 1rem;
-  max-width: 1200px;
-}
+.wrap { margin-inline: auto; padding-inline: 1rem; max-width: 1200px; }
 @media (min-width:768px){ .wrap{ max-width: 1280px; } }
 @media (min-width:1024px){ .wrap{ max-width: 1360px; } }
 @media (min-width:1280px){ .wrap{ max-width: 1400px; } }
 
 /* Section vertical rhythm */
 .section-block { @apply py-12 md:py-14; }
-.after-hero { @apply pt-12 md:pt-14; } /* if you use it under Hero */
+.after-hero { @apply pt-12 md:pt-14; }
+
+/* Contact tweaks (kept) */
+.contact-band { padding-bottom: 2rem !important; }
+#contact, #contact .wrap { padding-bottom: 2rem !important; }
+#contact [class*="pb-"] { padding-bottom: 0 !important; }
+#contact + footer, #contact + .site-footer, footer.site-footer { margin-top: 0.5rem !important; }
+
+/* Back-to-top ring (as-is) */
+.to-top::before{
+  background: conic-gradient(
+    var(--ring, rgba(168,85,247,1)) calc(var(--p,0) * 1% + 0.8deg),
+    var(--ring-bg, rgba(255,255,255,.16)) 0
+  );
+}
+.to-top{
+  position: fixed; right: 1.25rem; bottom: 1.25rem; width:56px; height:56px; border-radius:999px; display:grid; place-items:center; z-index:40;
+  --ring:#8b5cf6; --ring-bg:rgba(255,255,255,.16); --size:56px; --thickness:4px; --seam-deg:2.2deg; --start-rot:-90deg;
+}
+.to-top::before{
+  content:""; position:absolute; inset:0; width:var(--size); height:var(--size); border-radius:50%; transform:rotate(var(--start-rot)); will-change:background;
+  background: conic-gradient(var(--ring) calc((var(--p,0) * 1%) + var(--seam-deg)), var(--ring-bg) 0);
+  -webkit-mask: radial-gradient(closest-side, transparent calc(50% - var(--thickness)), black calc(50% - var(--thickness) + 0.5px));
+  mask: radial-gradient(closest-side, transparent calc(50% - var(--thickness)), black calc(50% - var(--thickness) + 0.5px));
+}
+.to-top > .to-top__inner{
+  position: relative; z-index:1; width:calc(var(--size) - (var(--thickness) * 2) - 6px); height:calc(var(--size) - (var(--thickness) * 2) - 6px);
+  border-radius:999px; display:grid; place-items:center;
+  background: radial-gradient(100% 100% at 50% 0%, rgba(255,255,255,.14), rgba(255,255,255,.06));
+  box-shadow: 0 8px 22px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.dark .to-top > .to-top__inner{ background: radial-gradient(100% 100% at 50% 0%, rgba(255,255,255,.08), rgba(255,255,255,.04)); }
+.to-top:hover::before{ --ring:#9f7aea; }
+.to-top:focus-visible{ outline:2px solid rgba(147,197,253,.8); outline-offset:4px; }
+
+/* ===== Hero 3D background bindings ===== */
+.hero-3d { position: relative; overflow: hidden; }
+.hero-3d-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.hero-3d .hero-content { position: relative; z-index: 1; }
+
+/* If Vanta injects a canvas, ensure it fills */
+.hero-3d .vanta-canvas { position: absolute !important; inset: 0 !important; }
 
 
-/* Reduce bottom spacing only for contact section */
-.contact-band {
-  padding-bottom: 2rem !important;  /* reduce from ~6rem → 2rem */
+/* Force-hide the mobile overlay and panel on md+ */
+@media (min-width: 768px) {
+  .nav-sheet,
+  .nav-sheet-panel {
+    display: none !important;
+  }
 }
 
-/* --- tighten the spacing *only* after Contact --- */
-#contact,
-#contact .wrap {
-  padding-bottom: 2rem !important;     /* reduce from the big default */
+
+/* Animated gradient background for Hero */
+.hero-animated .hero-gradient {
+  background: linear-gradient(-45deg, #FAF8F5, #F1ECE7, #E6B566, #FAF8F5);
+  background-size: 400% 400%;
+  animation: gradientShift 18s ease infinite;
 }
 
-/* If any nested block in Contact still adds pb-*, clamp it */
-#contact [class*="pb-"] {
-  padding-bottom: 0 !important;
+.dark .hero-animated .hero-gradient {
+  background: linear-gradient(-45deg, #0b0f1c, #1f2937, #2B2118, #0b0f1c);
+  background-size: 400% 400%;
+  animation: gradientShift 18s ease infinite;
 }
 
-/* In case the footer also has a big top margin, keep it tidy */
-#contact + footer,
-#contact + .site-footer,
-footer.site-footer {
-  margin-top: 0.5rem !important;
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 
-.glass-nav {
-  backdrop-filter: blur(12px) saturate(180%);
-  background: rgba(17, 25, 40, 0.6); /* semi-transparent dark */
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+/* ===== Premium Animated Gradient for Hero ===== */
+.hero-animated .hero-gradient{
+  /* Light: warm sand & clay sweep */
+  background: radial-gradient(1200px 600px at 15% 20%, rgba(164,90,73,0.08), transparent 55%),
+              radial-gradient(1200px 700px at 85% 30%, rgba(230,181,102,0.10), transparent 60%),
+              linear-gradient(-45deg, #FAF8F5, #F1ECE7, #E4B363, #FAF8F5);
+  background-size: 400% 400%;
+  animation: heroGradientShift 18s ease-in-out infinite;
+  transition: background 300ms ease;
 }
-.dark .glass-nav {
-  background: rgba(255, 255, 255, 0.05); /* light tint for dark mode */
+.dark .hero-animated .hero-gradient{
+  /* Dark: rich indigo → plum → espresso */
+  background: radial-gradient(1200px 600px at 15% 20%, rgba(109,99,230,0.16), transparent 55%),
+              radial-gradient(1200px 700px at 85% 30%, rgba(209,79,163,0.14), transparent 60%),
+              linear-gradient(-45deg, #0b0f1c, #1f2937, #2B2118, #0b0f1c);
+  background-size: 400% 400%;
+  animation: heroGradientShift 18s ease-in-out infinite;
+}
+
+/* Soft feathered edges to frame content */
+.hero-animated .hero-vignette{
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(0,0,0,0.06), transparent 65%),
+    radial-gradient(120% 85% at 50% 100%, rgba(0,0,0,0.06), transparent 70%);
+  mix-blend-mode: multiply;
+}
+.dark .hero-animated .hero-vignette{
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(0,0,0,0.35), transparent 65%),
+    radial-gradient(120% 85% at 50% 100%, rgba(0,0,0,0.35), transparent 70%);
+  mix-blend-mode: normal;
+}
+
+/* Film grain — very subtle for a premium texture */
+.hero-animated .hero-noise{
+  opacity: .07;
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' width='120' height='120'>\
+    <filter id='n'>\
+      <feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/>\
+    </filter>\
+    <rect width='120' height='120' filter='url(%23n)' opacity='.9'/>\
+  </svg>");
+  background-size: 240px 240px;
+}
+.dark .hero-animated .hero-noise{ opacity: .09; }
+
+@keyframes heroGradientShift{
+  0%{   background-position: 0% 50%; }
+  50%{  background-position: 100% 50%; }
+  100%{ background-position: 0% 50%; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .hero-animated .hero-gradient{ animation: none; }
+}
+
+
+/* =========================================
+   Premium animated scrollbar (no left strip)
+   - Works in Chromium/WebKit + Firefox
+   - Theme-aware (light/dark)
+   ========================================= */
+
+/* Theme tokens */
+:root{
+  --sb-size: 12px;
+  --sb-radius: 999px;
+
+  /* LIGHT */
+  --sb-thumb-1: #C97D60; /* terracotta */
+  --sb-thumb-2: #E6B566; /* golden sand */
+  --sb-track: transparent;
+}
+.dark{
+  /* DARK */
+  --sb-thumb-1: #7AA2FF; /* soft blue */
+  --sb-thumb-2: #A78BFA; /* violet */
+  --sb-track: transparent;
+}
+
+/* Ensure gutter only on the right (prevents a left strip) */
+html{
+  scrollbar-gutter: stable;   /* NOT “both-edges” */
+  overflow-y: scroll;         /* always reserve right gutter */
+}
+
+/* ===== WebKit (Chrome/Edge/Brave/Safari) ===== */
+::-webkit-scrollbar{
+  width: var(--sb-size);
+  height: var(--sb-size);
+  background: transparent;         /* no painted track = no edge strip */
+}
+
+::-webkit-scrollbar-track{
+  background: var(--sb-track);
+  border-radius: var(--sb-radius);
+}
+
+::-webkit-scrollbar-thumb{
+  /* premium pill with animated gradient */
+  background: linear-gradient(180deg, var(--sb-thumb-1), var(--sb-thumb-2));
+  background-size: 100% 300%;
+  background-position: 0 0;
+  border-radius: var(--sb-radius);
+
+  /* transparent border so the thumb doesn’t touch the edge (also removes any
+     perceived “strip” along page edges) */
+  border: 3px solid transparent;
+  background-clip: padding-box;
+
+  transition: filter .2s ease, box-shadow .2s ease;
+  animation: sbSlide 6s linear infinite;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  filter: brightness(1.06) saturate(1.05);
+  box-shadow: 0 0 0 2px rgba(0,0,0,.06) inset;
+}
+
+::-webkit-scrollbar-corner{ background: transparent; }
+
+/* Continuous, smooth motion */
+@keyframes sbSlide{
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 300%; }
+}
+
+/* ===== Firefox ===== */
+*{
+  scrollbar-width: thin;
+  scrollbar-color: var(--sb-thumb-1) transparent;  /* thumb / track */
+}
+
+/* Reduce motion respect (turns off animation but keeps style) */
+@media (prefers-reduced-motion: reduce){
+  ::-webkit-scrollbar-thumb{
+    animation: none;
+  }
+}
+
+
+/* Floating profile card shadows */
+.shadow-hero-light {
+  box-shadow:
+    0 22px 45px rgba(0, 0, 0, 0.16),
+    0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-hero-dark {
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.7),
+    0 12px 28px rgba(0, 0, 0, 0.45);
 }

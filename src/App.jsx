@@ -13,6 +13,7 @@ import Contact from "./components/Contact";
 import SectionBand from "./components/SectionBand";
 import BackToTop from "./components/BackToTop";
 import Footer from "./components/Footer";
+// import Background3D from "./components/Background3D";
 
 export default function App() {
   // Respect saved theme or OS preference on first load
@@ -60,7 +61,8 @@ export default function App() {
       <SectionBand id="contact" className="contact-band">
       <Contact />
       </SectionBand>
-
+      {/* <Background3D />
+      <Background3D /> */}
       <BackToTop />
       <Footer />
     </div>

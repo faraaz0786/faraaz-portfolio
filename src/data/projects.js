@@ -21,7 +21,7 @@ export const PROJECTS = [
       "JWT"
     ],
     github: "https://github.com/faraaz0786/PG_Life",
-    demo: "https://pg-life-frontend.vercel.app/"   // Replace with your actual deployed link
+    demo: "https://pg-life-two.vercel.app/"   // Replace with your actual deployed link
   },  
   {
     title: "Task Management CLI",

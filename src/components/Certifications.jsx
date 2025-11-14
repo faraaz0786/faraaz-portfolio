@@ -15,33 +15,37 @@ export default function Certifications() {
   ];
 
   return (
-    <section id="certifications" className="section-block scroll-mt-28 font-body">
-      <div className="section-surface">
-        <div className="wrap">
-          <SectionHeader
-            index="07"
-            title="Achievements & Certifications."
-            subtitle="Verified links to each certificate."
-          />
+    <>
 
-          <ul className="mt-6 grid md:grid-cols-2 gap-4">
-            {certs.map((c) => (
-              <li key={c.label}>
-                <a
-                  href={c.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="card p-4 flex items-center justify-between hover:-translate-y-0.5 transition"
-                  aria-label={`Open certificate: ${c.label}`}
-                >
-                  <span>{c.label}</span>
-                  <ExternalLink size={16} className="opacity-70" />
-                </a>
-              </li>
-            ))}
-          </ul>
+      {/* ===================== CERTIFICATIONS ===================== */}
+      <section id="certifications" className="section-block scroll-mt-28 font-body">
+        <div className="section-surface">
+          <div className="wrap">
+            <SectionHeader
+              index="07"
+              title="Achievements & Certifications."
+              subtitle="Verified links to each certificate."
+            />
+
+            <ul className="mt-6 grid md:grid-cols-2 gap-4">
+              {certs.map((c) => (
+                <li key={c.label}>
+                  <a
+                    href={c.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="card p-4 flex items-center justify-between hover:-translate-y-0.5 transition"
+                    aria-label={`Open certificate: ${c.label}`}
+                  >
+                    <span>{c.label}</span>
+                    <ExternalLink size={16} className="opacity-70" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

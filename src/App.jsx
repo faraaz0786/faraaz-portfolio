@@ -9,6 +9,7 @@ import Projects from "./components/Projects";
 import Experience from "./components/Experience";
 import Publications from "./components/Publications"; // ← fixed
 import Certifications from "./components/Certifications";
+import Recognition from "./components/Recognition";
 import Contact from "./components/Contact";
 import SectionBand from "./components/SectionBand";
 import BackToTop from "./components/BackToTop";
@@ -55,6 +56,9 @@ export default function App() {
 
         <hr className="section-sep" />
         <Certifications />
+
+        <hr className="section-sep" />
+        <Recognition />
       </main>
 
       {/* Contact as full-width band */}

@@ -1,4 +1,15 @@
+import { motion } from "framer-motion";
 import SectionHeader from "./SectionHeader";
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 28, filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
 
 export default function About() {
   return (
@@ -8,42 +19,33 @@ export default function About() {
           <SectionHeader
             index="01"
             title="About Me."
-            subtitle="Professional yet approachable."
+            subtitle="" // subtitle removed
           />
+          {/* keep a bit of vertical space where subtitle used to be */}
+          <div className="h-2 md:h-3" />
 
-          <div className="card p-6 leading-relaxed mt-6">
+          <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            whileHover={{
+              y: -4,
+              boxShadow:
+                "0 18px 40px rgba(0,0,0,0.18), 0 6px 16px rgba(255,255,255,0.10)",
+            }}
+            className="card p-6 leading-relaxed mt-6 rounded-3xl border border-slate-200/80 dark:border-slate-700/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl transition-shadow duration-300"
+          >
             <p>
-              I'm Mohd Faraaz Kalim, a passionate software developer with a solid
-              background in computer science and emerging technologies. I recently
-              completed my B.Tech in Computer Science and Engineering with IBM
-              (Data Science & Artificial Intelligence) and have gained both academic
-              and professional experience in full-stack development/deployment,
-              cloud computing and application software inspired by analytics. My
-              final-year project, <em>Real-Time Monitoring and Data Management for
-              Smart Meters Using IoT and Cloud Technologies</em>, is one such
-              example in which I combine electronic hardware (sensors) and software
-              (applications) to create flexible, customer-centric solutions.
+              I’m Mohd Faraaz Kalim — a software developer skilled in full-stack
+              engineering, cloud systems, and intelligent IoT-based applications.
+              I build solutions that merge software with real-world utility,
+              backed by experience in Python, Java, Django, Node.js, React.js,
+              MongoDB, and IoT hardware. My work reflects a focus on efficiency,
+              scalability, and meaningful innovation driven by AI, data, and
+              modern development practices.
             </p>
-
-            <p className="mt-3">
-              My technical expertise includes Python, Java, Django, Node.js,
-              React.js, MongoDB, and cloud platforms, with additional exposure to
-              IoT hardware such as ESP8266 and energy monitoring sensors. I’m
-              particularly passionate about leveraging AI, data science, and modern
-              web technologies to build solutions that bridge the gap between
-              theoretical knowledge and real-world applications. Beyond academics,
-              I’m committed to continuous learning, problem-solving, and
-              contributing to projects that drive efficiency, innovation, and
-              meaningful user experiences.
-            </p>
-
-            <p className="mt-3">
-              I strive to find opportunities focused on growth and flexibility,
-              where I can engage my skills, collaborate with different teams, and
-              pursue meaningful projects across software engineering, artificial
-              intelligence, and cloud-based solutions.
-            </p>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
